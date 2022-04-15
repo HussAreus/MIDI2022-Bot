@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.utils import get
+from dotenv import load_dotenv
 import functions
 import maps
 import decode
@@ -10,15 +11,16 @@ import os
 """
 Requires (pip install <module>):
 discord
-discord.ext
 opencv-python
 pyzbar
+https://github.com/Pycord-Development/pycord
 """
 
 REGISTER_CHANNEL = 955089619479838802
 japanese = "あいうえおかきくけこがげぎぐごさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまみむめもやゆよらりるれろわをん"
 bot = commands.Bot(command_prefix="")
-TOKEN = os.environ["TOKEN"]
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
 
 
 @bot.event
