@@ -9,11 +9,12 @@ import functions
 
 
 class Quest:
-    def __init__(self, name, lead, task, answer, reward, wmap):
+    def __init__(self, name, lead, task, answer, spot_reward, reward, wmap):
         self.name = name
         self.lead = lead
         self.task = task
         self.answer = answer
+        self.spot_reward = spot_reward #reikia prideti logikoj
         self.reward = reward
         self.map = wmap
 
@@ -123,7 +124,7 @@ map_dict = {
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152563427180664/MOMuziejus.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155959760678932/MOMuziejusBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161169451126814/MOMusziejusBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Backdoor", "Neturiu description",
+        "RANDOM LEAD", -55, "Backdoor", "Nes zonos punktai išdėstyti panašiai kaip čia : https://preview.redd.it/hdqiy46zp4d81.jpg?width=640&crop=smart&auto=webp&s=e9de8cf506eed5720594cea33faeb67c4859efa5",
         [
             Quest("Petro Cvirkos aikštė", "rebusas i jo kurini arba istrauka", "Fizine matrica", "23", 2, "mo"),
             Quest("Frank Zappa", "Daina", "Kazka is graficiu, nueit paziuret", "23", 2, "mo"),
@@ -135,7 +136,7 @@ map_dict = {
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152563804692500/Naujamiestis.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155960108802058/NaujamiestisBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161169836998656/NaujamiestisBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Fetus fields", "Neturiu description",
+        "RANDOM LEAD", -35, "Fetus fields", "Ten \"augina\" žmones, tai naugė",
         [
             Quest("Vokiečių g. 24", "35 34 2E 36 37 39 36 36 30 2C 20 32 35 2E 32 38 33 30 37 30", "Fizine matrica", "23", 2, "mo"),
             Quest("Margutis", "Nors Velykos ir pasibaigė, jis čia visus metus", "Kazka is graficiu, nueit paziuret", "23", 2, "mo"),
@@ -146,7 +147,7 @@ map_dict = {
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152564257673226/OnosBaznycia.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155960461107220/OnosBaznyciaBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161170109661264/OnosBaznyciaBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Mega City", "Neturiu description",
+        "RANDOM LEAD", -60, "Mega City", "Pats centras, pačio žemėlapio centras",
         [
             Quest("Radvilų rūmai", "Orakulė išpranašavo jiems turtus, kurių Europoje beveik niekas nebuvo matęs. Išpranašavo ir plačius laukus, aukščiausias miesto pareigas ir Europos titulus. Juodas, rudas ir našlaitėlis žengė šiais koridoriais kadaise...bet orakulė numatė ir skausmus: antrosios motinos nuodus... Dabar čia stovi palikimas jų, paverstas muzieju.", "Fizine matrica", "23", 2, "MO Muziejus"),
             Quest("Skulptūra “Vilnietė”", "Panevėžietė, šiaulietė, klaipėdietė, kaunietė, o štai ir ji, X-ietė! Tik jai ši skulptūra skirta, tačiau ar sugebėsi rast tu ją?", "Fizine matrica", "23", 2, "mo"),
@@ -159,17 +160,17 @@ map_dict = {
         "red": "https://media.discordapp.net/attachments/960152417687732245/960154563749498890/GedoProspektas.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155959001501806/GedoProspektasBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161171372142592/GedoProspektasBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Gedo Prospektas", "Neturiu description",
+        "RANDOM LEAD", -40, "Wells and Lake", "\"Wells and Lake\", nes  visi zonos punktai išdėstyti dviejose gatvėse (Gedimino prospektas ir A. Goštauto gatvė)",
         [
-            Quest("Suoliukas Vytautui Kernagiui atminti", "rebusas i jo kurini arba istrauka", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Žemaitės skveras", "1 banknotas. Reverso puse, galima uztusuot 1 verte?", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Operos ir baleto teatras", "MIDI seniau turėjo roko opėrą. (MIDI ISTORIJA, ŽODŽIAI SUNKUS). Kur dabar galėtum pasiklausyti operos", "Fizine matrica", "23", 2, "MO Muziejus")
+            Quest("Suoliukas Vytautui Kernagiui atminti", "https://drive.google.com/file/d/18jN5IT9XMbJYEeBpL5nVbhy8Q_XOnV5u/view?usp=sharing", "Suskaičiuoti plytelių aplink suoliuką neprašysime, bet paprašysime nelaukti lietaus ir pasakyti kas tai?", "aš", 20, 20, "wells and lakes"),
+            Quest("Žemaitės skveras", "https://drive.google.com/file/d/1hA1IR27jGJrqTdjv1EU2iKWwLF8KMX8t/view?usp=sharing", "Kam žmogus pasakė Labą dieną?", "Vėjui", 30, 30, "wells and lakes"),
+            Quest("Operos ir baleto teatras", "Šie metai, vieni iš nedaugelio, kai MIDI renginių savaitės nevainikuos legendininis/tradicinis renginys, kurio vienas iš tikslų, pasitelkiant kiek netikėtą formatą, kelti studentams aktualius klausimus bei problemas. Tačiau kas, jeigu mes esame įstrigę matricoje ir viskas aplink mus tik viena didelė apgaulė? Galbūt tik esame netinkamu laiku, netinkamoje vietoje? Pamėginkime išsiaiškinti!", "X jau dienos atėjo,\nNes studentams švenčių reikėjo,\nX jau dienos atėjo,\nNes studentams švenčių reikėjo.\nĮrašykite praleistą žodį.", "Katino", 20, 10, "wells and lakes")
         ]),
     "machine city": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152564610003024/Vyskupas.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155961132191805/VyskupasBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161170688462878/VyskupasBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Machine City", "Neturiu description",
+        "RANDOM LEAD", -60, "Machine City", "Nes Naujamiestis, tai tarkim moderniau",
         [
             Quest("Tauro kalnas", "Kalnas kuris buvo minimas garsiausioje legendoje ,kuri yra susijusi su Vilniumi.", "Fizine matrica", "23", 2, "MO Muziejus"),
             Quest("Obuolis", "Netikėtai raudonos bangos matricijoje atsirado klaida - išliko tai kas neturėjo išlikt prie pastato kuris kartais sujungia dviejų žmonių gyvenimus amžinai. (zakso - bandyk i6 hnaujo)", "Fizine matrica", "23", 2, "MO Muziejus"),
@@ -181,7 +182,7 @@ map_dict = {
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152565557903360/Uzupis.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155960800870421/UzupisBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161170390659152/UzupisBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Zion", "Neturiu description",
+        "RANDOM LEAD", -65, "Zion", "Filme, tai yra sukilusių, atsiskyrusių žmonių miestas",
         [
             Quest("Tibeto skveras", "Nors 1959 Dalai Lama buvo išvarytas iš savo namų, iš šių jo namų jis tikrai nebūtų išvaromas", "Fizine matrica", "23", 2, "MO Muziejus"),
             Quest("Edwardo van Longuso darbai ant fasadinės UMI sienos", "https://drive.google.com/file/d/18pBgS1oWHU4qnQfTrI5O959FQ1ffyRsc/view?usp=sharing", "Fizine matrica", "23", 2, "MO Muziejus"),
@@ -194,17 +195,17 @@ map_dict = {
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152575540363274/Katedra.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155959353819187/KatedraBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161169195278386/KatedraBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Capital City", "Neturiu description",
+        "RANDOM LEAD", -40, "Capital City", "Nes centras",
         [
-            Quest("Sėkmės pilvas", "Anot legendos, kadaise Vilniuje gyveno skurdi šeima, kuri vos sudurdavo galą su galu. Ir, nors vaikai lakstė apdriskę ir alkani, bet visų nuostabai, jie augo nepaprastai gabūs, o subrendę tapo turtingais pirkliais ir nagingais amatininkais, gaminančiais aukštuomenei madingiausius daiktus. Vaikų motina jų sėkmę paaiškino tuo, jog tam, kuris tapo juvelyru, kas rytą glostydavo rankeles, o pirkliui - glostydavo JĮ, nes, anot jos, „ką glostai, tas ir auga“", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Katedra", "Koridoriuj tarp religijos ir valdovu", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Seniausias skelbimų stulpas", "Šalia seniausio azuolo Vilniuj, geltonoji spauda", "Fizine matrica", "23", 2, "MO Muziejus")
+            Quest("Sėkmės pilvas", "Atsiradus „Stebuklui“ miestelėnai iš karto suprato, kad plytelė žymi vietą norams galvoti, tačiau reikėjo suprasti, ką reikia daryti, kad noras galiausiai išsipildytų. Jeigu nepavyksta suprasti, kaip tai padaryti šioje vietoje, pakartotinai savo norą galite bandyti išpildyti apsilankę dar vienoje sėkmę nešančioje vietoje, kuri nuo plytelės yra nutolusi tik 600m.", "https://docs.google.com/document/d/1xexa6RaT8hRKS_f7TwCu8D-OKPS1miwogXkDgUsT9Uk/edit", "Čeburekai/Čeburekas", 30, 20, "capital city"),
+            Quest("Katedra", "Jeigu netyčia pasiklystumėte matricoje ir nusikeltumėte atgal į praeitį einant šiuo koridoriumi galėtumėte prasilenkti su krikščionių dvasininkais ir Lietuvos kunigaikščiais. ", "Fizine užduptis", "striksintiskatinas", 10, 20, "capital city"),
+            Quest("Seniausias skelbimų stulpas", "FOTO", "Kas yra X?", "seniausias skelbimų stulpas", 0, 40, "capital city")
         ]),
     "mobil avenue": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152638337482802/AusrosVartai.png?width=670&height=670",
         "blue": "https://media.discordapp.net/attachments/960152417687732245/960155961471954974/AusrosVartaiBP.png?width=670&height=670",
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161171065929788/AusrosVartaiBM.png?width=670&height=670"},
-        "RANDOM LEAD", -4, "Mobil Avenue", "Neturiu description",
+        "RANDOM LEAD", -60, "Mobil Avenue", "Zonos vietos (vartai, kompasas, bastėja) primena ala stotį, vietą, kur vienus praleidžia, o kitų ne",
         [
             Quest("Vilniaus kompasas", "Vilniuj pasiklydes, čia surasi kelia.", "Fizine matrica", "23", 2, "MO Muziejus"),
             Quest("Vilniaus gynybinės sienos bastėja ", "Firewall apsaugo nuo kenkėjiškų programų, virusų, atakų.", "Fizine matrica", "23", 2, "MO Muziejus"),
