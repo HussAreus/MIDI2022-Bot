@@ -17,8 +17,20 @@ https://github.com/Pycord-Development/pycord
 """
 
 REGISTER_CHANNEL = 955089619479838802
+ADMIN_CHANNEL = 965163235290533928
+GUILD_CHANNEL = 959078914083418132
+
+
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix="",
+            intents=discord.Intents.all(),
+        )
+
+
 japanese = "あいうえおかきくけこがげぎぐごさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまみむめもやゆよらりるれろわをん"
-bot = commands.Bot(command_prefix="")
+bot = Bot()
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
@@ -45,7 +57,7 @@ async def on_message(ctx):
             await ctx.delete()
         elif command == "green":
             await channel.send("```bash\n\"Green Text hopefully\"\n```")
-        elif command == "create":
+        elif channel.id == GUILD_CHANNEL and command == "create":
             if data:
                 if not functions.find_user(str(author.id)):
                     if await create_guild(ctx, data):
@@ -59,7 +71,7 @@ async def on_message(ctx):
             """await ctx.delete()
             time.sleep(2)
             await answer.delete()"""
-        elif command == "join":
+        elif channel.id == GUILD_CHANNEL and command == "join":
             if data:
                 if not functions.find_user(str(author.id)):
                     result, memb = functions.join(str(author.id), data)
@@ -79,9 +91,6 @@ async def on_message(ctx):
             if result:
                 await channel.send(result)
         elif command == "map" or command == "maps":
-            data = content.split(" ")
-            data = data[1:]
-            data = ' '.join(data)
             if data:
                 result = maps.load_map(str(author.id), data)
                 if result:
@@ -91,12 +100,9 @@ async def on_message(ctx):
             else:
                 await channel.send(embed=maps.load_all(str(author.id)))
         elif command == "style":
-            data = content.split(" ")
-            data = data[1:]
-            data = ' '.join(data)
-            guildname = functions.find_user(str(author.id))
-            guild = functions.load_guild(guildname)
-            if data and guild:
+            if data:
+                guildname = functions.find_user(str(author.id))
+                guild = functions.load_guild(guildname)
                 result = guild.set_style(data)
                 if result:
                     functions.upload_guild(guild)
@@ -104,14 +110,13 @@ async def on_message(ctx):
                 else:
                     await channel.send("No such style in databases")
         elif command == "buy":
-            data = content.split(" ")
-            data = data[1:]
-            data = ' '.join(data)
             embed = maps.buy_map(str(author.id), data)
             if embed:
                 await channel.send(embed=embed)
         elif command == "hint":
             pass
+        elif command == "leaderboard":
+            functions.update_leaderboard()
         elif len(ctx.attachments) > 0:
             for file in ctx.attachments:
                 sub_channel = get(ctx.guild.channels, id=962275479564468224)

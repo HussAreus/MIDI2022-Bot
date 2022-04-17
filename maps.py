@@ -7,14 +7,13 @@ import functions
 **********************************************************"""
 
 
-
 class Quest:
     def __init__(self, name, lead, task, answer, spot_reward, reward, wmap):
         self.name = name
         self.lead = lead
         self.task = task
         self.answer = answer
-        self.spot_reward = spot_reward #reikia prideti logikoj
+        self.spot_reward = spot_reward  # reikia prideti logikoj
         self.reward = reward
         self.map = wmap
 
@@ -115,7 +114,7 @@ def load_all(uid):
         if guild and wmap in guild.mapTokens:
             embed.add_field(name=map_dict[wmap].location, value="~~" + map_dict[wmap].lead + "~~", inline=False)
         else:
-            embed.add_field(name="Map "+ str(i), value=map_dict[wmap].lead, inline=False)
+            embed.add_field(name="Map " + str(i), value=map_dict[wmap].lead, inline=False)
     return embed
 
 

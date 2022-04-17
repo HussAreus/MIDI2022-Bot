@@ -145,3 +145,12 @@ def set_guild(uid, guildname):
         f.seek(0)
         f.truncate()
         json.dump(data, f)
+
+
+def update_leaderboard():
+    with open("guildlist.json", "r") as f:
+        print("DOING SOMETHING")
+        data = json.load(f)
+        sort_orders = sorted(data.items(), key=lambda x: x[1])
+        for i in sort_orders:
+            print(i[0], i[1])
