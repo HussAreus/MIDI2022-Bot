@@ -35,14 +35,14 @@ def check_answer(uid, answer):
                 return "You haven't unlocked this map"
 
 
-def get_task(uid, keyword):
+def get_task(uid, answer):
     guildname = functions.find_user(uid)
     guild = functions.load_guild(guildname)
     with open("quests.json", "r") as f:
         data = json.load(f)
-        if keyword in data.keys():
-            guild.add_qtoken(keyword)
-            return data[keyword]
+        if answer in data.keys():
+            guild.add_qtoken(answer)
+            return data[answer]
 
 
 """**********************************************************
@@ -125,11 +125,11 @@ map_dict = {
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161169451126814/MOMusziejusBM.png?width=670&height=670"},
         "RANDOM LEAD", -55, "Backdoor", "Nes zonos punktai išdėstyti panašiai kaip čia : https://preview.redd.it/hdqiy46zp4d81.jpg?width=640&crop=smart&auto=webp&s=e9de8cf506eed5720594cea33faeb67c4859efa5",
         [
-            Quest("Petro Cvirkos aikštė", "rebusas i jo kurini arba istrauka", "Fizine matrica", "23", 2, "mo"),
-            Quest("Frank Zappa", "Daina", "Kazka is graficiu, nueit paziuret", "23", 2, "mo"),
-            Quest("Reformatų skveras", "Ieškok riedulio su šiuo tekstu: „Čia, buvusiose kapinėse, bus pastatytas paminklas XVI a. Lietuvos reformacijos pradininkams.“", "Fizine matrica", "23", 2, "mo"),
-            Quest("Miesto vartų sargybinis", "Anksčiau saugojęs Vilniaus miesto vartus, dabar tebežiūri ir sergėja vieną labiausiai minusų neturinčių žmonių „pamėgtą“ kavinę-barą.", "Fizine matrica", "23", 2, "mo"),
-            Quest("MO muziejus", "rankos, funkcija MO raides", "Fizine matrica", "23", 2, "mo")
+            Quest("Petro Cvirkos aikštė", "rebusas i jo kurini arba istrauka", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Frank Zappa", "Daina", "Kazka is graficiu, nueit paziuret", "23", 2, 10, "mo"),
+            Quest("Reformatų skveras", "Ieškok riedulio su šiuo tekstu: „Čia, buvusiose kapinėse, bus pastatytas paminklas XVI a. Lietuvos reformacijos pradininkams.“", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Miesto vartų sargybinis", "Anksčiau saugojęs Vilniaus miesto vartus, dabar tebežiūri ir sergėja vieną labiausiai minusų neturinčių žmonių „pamėgtą“ kavinę-barą.", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("MO muziejus", "rankos, funkcija MO raides", "Fizine matrica", "23", 2, 10, "mo")
         ]),
     "fetus fields": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152563804692500/Naujamiestis.png?width=670&height=670",
@@ -137,10 +137,10 @@ map_dict = {
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161169836998656/NaujamiestisBM.png?width=670&height=670"},
         "RANDOM LEAD", -35, "Fetus fields", "Ten \"augina\" žmones, tai naugė",
         [
-            Quest("Vokiečių g. 24", "35 34 2E 36 37 39 36 36 30 2C 20 32 35 2E 32 38 33 30 37 30", "Fizine matrica", "23", 2, "mo"),
-            Quest("Margutis", "Nors Velykos ir pasibaigė, jis čia visus metus", "Kazka is graficiu, nueit paziuret", "23", 2, "mo"),
-            Quest("Skulptūra „Katinas“", "https://www.youtube.com/watch?v=ndsaoMFz9J4&ab_channel=Markiplier", "Fizine matrica", "23", 2, "mo"),
-            Quest("MIDI OFISAS", "https://drive.google.com/file/d/1-JfMyKulnqnpLsEQI9QBeoNpwGwuTYRB/view?usp=sharing", "Fizine matrica", "23", 2, "mo")
+            Quest("Vokiečių g. 24", "35 34 2E 36 37 39 36 36 30 2C 20 32 35 2E 32 38 33 30 37 30", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Margutis", "Nors Velykos ir pasibaigė, jis čia visus metus", "Kazka is graficiu, nueit paziuret", "23", 2, 10, "mo"),
+            Quest("Skulptūra „Katinas“", "https://www.youtube.com/watch?v=ndsaoMFz9J4&ab_channel=Markiplier", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("MIDI OFISAS", "https://drive.google.com/file/d/1-JfMyKulnqnpLsEQI9QBeoNpwGwuTYRB/view?usp=sharing", "Fizine matrica", "23", 2, 10, "mo")
         ]),
     "mega city": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152564257673226/OnosBaznycia.png?width=670&height=670",
@@ -148,12 +148,12 @@ map_dict = {
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161170109661264/OnosBaznyciaBM.png?width=670&height=670"},
         "RANDOM LEAD", -60, "Mega City", "Pats centras, pačio žemėlapio centras",
         [
-            Quest("Radvilų rūmai", "Orakulė išpranašavo jiems turtus, kurių Europoje beveik niekas nebuvo matęs. Išpranašavo ir plačius laukus, aukščiausias miesto pareigas ir Europos titulus. Juodas, rudas ir našlaitėlis žengė šiais koridoriais kadaise...bet orakulė numatė ir skausmus: antrosios motinos nuodus... Dabar čia stovi palikimas jų, paverstas muzieju.", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Skulptūra “Vilnietė”", "Panevėžietė, šiaulietė, klaipėdietė, kaunietė, o štai ir ji, X-ietė! Tik jai ši skulptūra skirta, tačiau ar sugebėsi rast tu ją?", "Fizine matrica", "23", 2, "mo"),
-            Quest("Alumnato kiemelis", "Ženki universitetiniu žingsniu ir pažvelki pro vartus. O už jų uždraustas parkas, ten sėdės tiktai Gitanas xddd (universiteto g > bromas > kiemas>nuotrauka, kur u=duotis))??? kazka su kunigais", "Fizine matrica", "23", 2, "mo"),
-            Quest("Grojantis Oginskio suoliukas", "Prieš septynis metus pastatytas, paminint jo ""savininko"" 250m. gimimo progą. Reto matytas, bet dažno girdėtas. Suradus, jis leis sekundei atsikvėpti.", "Fizine matrica", "23", 2, "mo"),
-            Quest("Žibintininko skulptūra", "Matricos šviesos nešėjas buvo Neo, o XIX amžiuje Lietuvoje nakties metu šviesos nešėjais buvo jie. Šiandien vienas jis stovi visiškai prie pat mokslo šviesos šaltinio. (man oficialiai nesiseka pabaigų rašyt ;-;)", "Fizine matrica", "23", 2, "mo"),
-            Quest("Literatų gatvė", "X-as tau parodys kelią.\nPrieš lietuvių kalbos abitūros\negzaminą, menu, su klasiokais\nX dūros\nprisirūkę ir po pedesioką\npadarę iš baimės, kol mąstėm\ntemas, kurios gal ir gali\nbūti nuleistos...", "Fizine matrica", "23", 2, "mo")
+            Quest("Radvilų rūmai", "Orakulė išpranašavo jiems turtus, kurių Europoje beveik niekas nebuvo matęs. Išpranašavo ir plačius laukus, aukščiausias miesto pareigas ir Europos titulus. Juodas, rudas ir našlaitėlis žengė šiais koridoriais kadaise...bet orakulė numatė ir skausmus: antrosios motinos nuodus... Dabar čia stovi palikimas jų, paverstas muzieju.", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Skulptūra “Vilnietė”", "Panevėžietė, šiaulietė, klaipėdietė, kaunietė, o štai ir ji, X-ietė! Tik jai ši skulptūra skirta, tačiau ar sugebėsi rast tu ją?", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Alumnato kiemelis", "Ženki universitetiniu žingsniu ir pažvelki pro vartus. O už jų uždraustas parkas, ten sėdės tiktai Gitanas xddd (universiteto g > bromas > kiemas>nuotrauka, kur u=duotis))??? kazka su kunigais", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Grojantis Oginskio suoliukas", "Prieš septynis metus pastatytas, paminint jo ""savininko"" 250m. gimimo progą. Reto matytas, bet dažno girdėtas. Suradus, jis leis sekundei atsikvėpti.", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Žibintininko skulptūra", "Matricos šviesos nešėjas buvo Neo, o XIX amžiuje Lietuvoje nakties metu šviesos nešėjais buvo jie. Šiandien vienas jis stovi visiškai prie pat mokslo šviesos šaltinio. (man oficialiai nesiseka pabaigų rašyt ;-;)", "Fizine matrica", "23", 2, 10, "mo"),
+            Quest("Literatų gatvė", "X-as tau parodys kelią.\nPrieš lietuvių kalbos abitūros\negzaminą, menu, su klasiokais\nX dūros\nprisirūkę ir po pedesioką\npadarę iš baimės, kol mąstėm\ntemas, kurios gal ir gali\nbūti nuleistos...", "Fizine matrica", "23", 2, 10, "mo")
         ]),
     "wells and lake": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960154563749498890/GedoProspektas.png?width=670&height=670",
@@ -171,11 +171,11 @@ map_dict = {
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161170688462878/VyskupasBM.png?width=670&height=670"},
         "RANDOM LEAD", -60, "Machine City", "Nes Naujamiestis, tai tarkim moderniau",
         [
-            Quest("Tauro kalnas", "Kalnas kuris buvo minimas garsiausioje legendoje ,kuri yra susijusi su Vilniumi.", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Obuolis", "Netikėtai raudonos bangos matricijoje atsirado klaida - išliko tai kas neturėjo išlikt prie pastato kuris kartais sujungia dviejų žmonių gyvenimus amžinai. (zakso - bandyk i6 hnaujo)", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Berniukas su kaliošu", "\"Ką galima padaryti dėl meilės? Galbūt net suvalgyti kaliošą\"", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Provianto kvartalas", "Buvęs mažas ir gilus gyvybės šaltinis tarp naujoviškų dangoraižių. 54,6793855, 25,2582647", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Nepastatyta bažnyčia (atminimo ženklas architektui Antanui Vivulskiui)", "O ne ir vėl klaida matricoje! Kadaise turėjusi būti didžiausia Lietuvoje, o gal net Europoje bažnyčia teliko tokio dydžio, kad norint į ją patekti dabar - reikėtų tapti bent 10 kartų mažesne savo versija.", "Fizine matrica", "23", 2, "MO Muziejus")
+            Quest("Tauro kalnas", "Kalnas kuris buvo minimas garsiausioje legendoje ,kuri yra susijusi su Vilniumi.", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Obuolis", "Netikėtai raudonos bangos matricijoje atsirado klaida - išliko tai kas neturėjo išlikt prie pastato kuris kartais sujungia dviejų žmonių gyvenimus amžinai. (zakso - bandyk i6 hnaujo)", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Berniukas su kaliošu", "\"Ką galima padaryti dėl meilės? Galbūt net suvalgyti kaliošą\"", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Provianto kvartalas", "Buvęs mažas ir gilus gyvybės šaltinis tarp naujoviškų dangoraižių. 54,6793855, 25,2582647", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Nepastatyta bažnyčia (atminimo ženklas architektui Antanui Vivulskiui)", "O ne ir vėl klaida matricoje! Kadaise turėjusi būti didžiausia Lietuvoje, o gal net Europoje bažnyčia teliko tokio dydžio, kad norint į ją patekti dabar - reikėtų tapti bent 10 kartų mažesne savo versija.", "Fizine matrica", "23", 2, 10, "MO Muziejus")
         ]),
     "zion": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152565557903360/Uzupis.png?width=670&height=670",
@@ -183,12 +183,12 @@ map_dict = {
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161170390659152/UzupisBM.png?width=670&height=670"},
         "RANDOM LEAD", -65, "Zion", "Filme, tai yra sukilusių, atsiskyrusių žmonių miestas",
         [
-            Quest("Tibeto skveras", "Nors 1959 Dalai Lama buvo išvarytas iš savo namų, iš šių jo namų jis tikrai nebūtų išvaromas", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Edwardo van Longuso darbai ant fasadinės UMI sienos", "https://drive.google.com/file/d/18pBgS1oWHU4qnQfTrI5O959FQ1ffyRsc/view?usp=sharing", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Užupio katinas", "MINČIŲ GRANDINĖLĖ(dar nera, nors yra bet dont worry about)", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Subačiaus apžvalgos aikštelė", "https://drive.google.com/file/d/1CJ4EWmcC7vNhfBsc7Y2kCMvnVCyaKmSW/view?usp=sharing", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Užupio angelas", "Matrica turi Serafimą, o ką turi Užupis", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Užupio konstitucija", "https://drive.google.com/file/d/13styfOqDJWt3qj8lxck1DZG31qw8muPD/view?usp=sharing", "Fizine matrica", "23", 2, "MO Muziejus")
+            Quest("Tibeto skveras", "Nors 1959 Dalai Lama buvo išvarytas iš savo namų, iš šių jo namų jis tikrai nebūtų išvaromas", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Edwardo van Longuso darbai ant fasadinės UMI sienos", "https://drive.google.com/file/d/18pBgS1oWHU4qnQfTrI5O959FQ1ffyRsc/view?usp=sharing", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Užupio katinas", "MINČIŲ GRANDINĖLĖ(dar nera, nors yra bet dont worry about)", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Subačiaus apžvalgos aikštelė", "https://drive.google.com/file/d/1CJ4EWmcC7vNhfBsc7Y2kCMvnVCyaKmSW/view?usp=sharing", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Užupio angelas", "Matrica turi Serafimą, o ką turi Užupis", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Užupio konstitucija", "https://drive.google.com/file/d/13styfOqDJWt3qj8lxck1DZG31qw8muPD/view?usp=sharing", "Fizine matrica", "23", 2, 10, "MO Muziejus")
         ]),
     "capital city": WorldMap({
         "red": "https://media.discordapp.net/attachments/960152417687732245/960152575540363274/Katedra.png?width=670&height=670",
@@ -206,10 +206,10 @@ map_dict = {
         "old": "https://media.discordapp.net/attachments/960152417687732245/960161171065929788/AusrosVartaiBM.png?width=670&height=670"},
         "RANDOM LEAD", -60, "Mobil Avenue", "Zonos vietos (vartai, kompasas, bastėja) primena ala stotį, vietą, kur vienus praleidžia, o kitų ne",
         [
-            Quest("Vilniaus kompasas", "Vilniuj pasiklydes, čia surasi kelia.", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Vilniaus gynybinės sienos bastėja ", "Firewall apsaugo nuo kenkėjiškų programų, virusų, atakų.", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Dr. Jono Basanavičiaus aikštė", "Kas turi 41 gatve pavadinta jo vardu", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Aušros vartai", "https://drive.google.com/file/d/1K4NlJsMVV7CHWS9iPevW1-1UOjiVJuKN/view?usp=sharing", "Fizine matrica", "23", 2, "MO Muziejus"),
-            Quest("Taraso Ševčenkos Paminklas", "Platus Dniepras riaumoja ir dejuoja, /n Piktas vėjas drasko lapus, /n Viskas, kas yra žemiau gluosnio, linksta į žemę /nIr bangos yra didžiulės. /nIr kartais blyškus mėnulis /nUž tamsaus debesies klaidžiojo. /nKaip bangos aplenktas valtis, /nJis plūduriavo, tada dingo. ", "Fizine matrica", "23", 2, "MO Muziejus"),
+            Quest("Vilniaus kompasas", "Vilniuj pasiklydes, čia surasi kelia.", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Vilniaus gynybinės sienos bastėja ", "Firewall apsaugo nuo kenkėjiškų programų, virusų, atakų.", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Dr. Jono Basanavičiaus aikštė", "Kas turi 41 gatve pavadinta jo vardu", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Aušros vartai", "https://drive.google.com/file/d/1K4NlJsMVV7CHWS9iPevW1-1UOjiVJuKN/view?usp=sharing", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
+            Quest("Taraso Ševčenkos Paminklas", "Platus Dniepras riaumoja ir dejuoja, /n Piktas vėjas drasko lapus, /n Viskas, kas yra žemiau gluosnio, linksta į žemę /nIr bangos yra didžiulės. /nIr kartais blyškus mėnulis /nUž tamsaus debesies klaidžiojo. /nKaip bangos aplenktas valtis, /nJis plūduriavo, tada dingo. ", "Fizine matrica", "23", 2, 10, "MO Muziejus"),
         ])
 }

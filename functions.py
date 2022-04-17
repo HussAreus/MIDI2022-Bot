@@ -1,6 +1,10 @@
 import json
+import discord
+from datetime import datetime
+
 
 styles = ["red", "blue", "old"]
+last_update = "00:00"
 
 
 def register(uid):
@@ -78,6 +82,19 @@ class Guild:
         else:
             return False
 
+    def lead(self):
+        try:
+            with open("leaderboard.json", "r") as f:
+                data = json.load(f)[self.name.lower()]
+                embed = discord.Embed(title="Latest leaderboards:")
+                for i in range(0, len(data)):
+                    embed.add_field(name=data[-i][0], value="Points collected: " + str(data[-i][1]), inline=False)
+                embed.set_footer(text="Last update "+last_update)
+                return embed
+        except Exception as e:
+            print(e)
+            return discord.Embed(title="Leaderboard is not prepared yet. Try again later", description="We update leaderboards every 30 minutes")
+
 
 def create_guild(guildname, uid, channelid):
     with open("guildlist.json", "r+") as ff:
@@ -86,7 +103,6 @@ def create_guild(guildname, uid, channelid):
             with open("guilds/" + guildname.lower() + ".json", "w+") as f:
                 json.dump(Guild(name=guildname, uid=[uid], channelid=channelid).__dict__, f)
             data.update({guildname: 0})
-            # set_guild(uid, guildname)
             ff.seek(0)
             ff.truncate()
             json.dump(data, ff)
@@ -149,8 +165,31 @@ def set_guild(uid, guildname):
 
 def update_leaderboard():
     with open("guildlist.json", "r") as f:
-        print("DOING SOMETHING")
         data = json.load(f)
-        sort_orders = sorted(data.items(), key=lambda x: x[1])
-        for i in sort_orders:
-            print(i[0], i[1])
+    sorted_data = sorted(data.items(), key=lambda x: x[1])
+    with open("leaderboard.json", "w") as ff:
+        new_data = {}
+        end = len(sorted_data)
+        for i in range(0, end):
+            listas = []
+            if i >= 2:
+                listas.append(sorted_data[i-2])
+            if i >= 1:
+                listas.append(sorted_data[i-1])
+            listas.append(sorted_data[i])
+            if i < end-1:
+                listas.append(sorted_data[i+1])
+            if i < end-2:
+                listas.append(sorted_data[i+2])
+            new_data[sorted_data[i][0]] = listas
+        json.dump(new_data, ff)
+
+    now = datetime.now()
+    global last_update
+    last_update = now.strftime("%H:%M")
+    result = ""
+    if end > 10:
+        end = 10
+    for i in range(1, end+1):
+        result += "No." + str(i) + " " + sorted_data[end-i][0] + " " + str(sorted_data[end-i][1]) + "\n"
+    return result

@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import functions
 import maps
 import decode
-import time
 import random
 import os
 """
@@ -115,8 +114,15 @@ async def on_message(ctx):
                 await channel.send(embed=embed)
         elif command == "hint":
             pass
-        elif command == "leaderboard":
-            functions.update_leaderboard()
+        elif command == "leaderboard" or command == "lead" or command == "rank":
+            if channel.id == ADMIN_CHANNEL:
+                result = functions.update_leaderboard()
+                if result:
+                    await channel.send(result)
+            else:
+                guildname = functions.find_user(str(author.id))
+                guild = functions.load_guild(guildname)
+                await channel.send(embed=guild.lead())
         elif len(ctx.attachments) > 0:
             for file in ctx.attachments:
                 sub_channel = get(ctx.guild.channels, id=962275479564468224)
@@ -162,6 +168,4 @@ async def create_guild(ctx, guildname):
         return False
 
 
-
-rand ="OTUzNzQ2NjM0NzU4NTc0MTMw.YjJDxQ.NaJXilXrIQR5oQ3lq0ac_hFVjXg"
 bot.run(TOKEN)
