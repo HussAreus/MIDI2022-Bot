@@ -95,7 +95,7 @@ async def on_message(ctx):
                 if result:
                     await channel.send(embed=result)
                 else:
-                    await channel.send("BRUH NO?")
+                    await channel.send("Unidentified map.obj for MX Matrix v1.22474487139")
             else:
                 await channel.send(embed=maps.load_all(str(author.id)))
         elif command == "style":

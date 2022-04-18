@@ -26,7 +26,7 @@ def check_answer(uid, answer):
         if answer in data.keys():
             quest = Quest(*data[answer])
             if quest.map in guild.mapTokens:
-                result = guild.add_qtoken(data[answer]["name"], data[answer]["reward"])
+                result = guild.add_points(data[answer]["reward"], answer)
                 functions.upload_guild(guild)
                 if result:
                     return 'Quest "' + str(data[answer]["name"]) + '" completed\nReward: ' + str(
@@ -35,14 +35,33 @@ def check_answer(uid, answer):
                 return "You haven't unlocked this map"
 
 
-def get_task(uid, answer):
+def get_task(uid, quest_id):
     guildname = functions.find_user(uid)
     guild = functions.load_guild(guildname)
-    with open("quests.json", "r") as f:
+    with open("gateway.json", "r") as f:
         data = json.load(f)
-        if answer in data.keys():
-            guild.add_qtoken(answer)
-            return data[answer]
+        if quest_id in data.keys():
+            answer = data.keys[quest_id]
+            if guild.add_qtoken(answer):
+                return load_quest(answer, True)
+            return load_quest(answer, False)
+
+
+def upload_quests():
+    with open("quests.json", "w") as f:
+        quest_dict = {}
+        for wmap in map_dict.keys():
+            for quest in map_dict[wmap].quests:
+                quest_dict[quest.answer] = quest.__dict__
+        json.dump(quest_dict, f)
+
+
+def load_quest(answer, new):
+    with open("quests.json", "r") as f:
+        quest = Quest(*json.load(f)[answer])
+        embed = discord.Embed(title=quest.name, description=quest.task)
+        if new:
+            embed.set_footer(text="Reward for unlocking this quest: " + str(quest.spot_reward))
 
 
 """**********************************************************
@@ -84,7 +103,7 @@ def create_embed(wmap, guild):
     for quest in wmap.quests:
         if not guild.questTokens:
             guild.questTokens = []
-        if quest.name not in guild.questTokens:
+        if quest.answer not in guild.questTokens or not guild.questTokens[quest.answer]:
             embed.add_field(name="_ _", value="* " + quest.lead, inline=False)
         else:
             embed.add_field(name="_ _", value="* ~~" + quest.lead + "~~", inline=False)
@@ -98,6 +117,8 @@ def buy_map(uid, numb):
     if numb in temp:
         guildname = functions.find_user(uid)
         guild = functions.load_guild(guildname)
+        if map_dict[temp[numb]].price < guild.points:
+            return discord.Embed(title="Not Enough Points", description="You can earn more points by doing quests. If your not able to find a quest then just wander around the matrix - you might find one accidently")
         if temp[numb] not in guild.mapTokens:
             guild.add_points(map_dict[temp[numb]].price, None)
             functions.upload_guild(guild)
@@ -212,3 +233,5 @@ map_dict = {
             Quest("Taraso Ševčenkos Paminklas", "Platus Dniepras riaumoja ir dejuoja,\nPiktas vėjas drasko lapus,\nViskas, kas yra žemiau gluosnio, linksta į žemę\nIr bangos yra didžiulės.\nIr kartais blyškus mėnulis\nUž tamsaus debesies klaidžiojo.\nKaip bangos aplenktas valtis,\nJis plūduriavo, tada dingo.", "Įveskite praleistas raides + kūrinio pavadinimą, be pirmo žodžio:\nTeka vandenys pro girią\nIr pakalnė_ bėga.\nPlūko nardo ančiukėl_ai\nPakraštį nen_rėtą.\nIš paskos vis ga_galėlis,\nO su juo antelė,\nSkabo plūdenas ir klega\nSu savais vaikeliais.", "MIDI iš po jovarėlio", 20, 20, "mobil avenue"),
         ])
 }
+
+
