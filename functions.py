@@ -1,10 +1,11 @@
 import json
 import discord
 from datetime import datetime
-
+import random
 
 styles = ["red", "blue", "old"]
 last_update = "00:00"
+japanese = "あいうえおかきくけこがげぎぐごさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまみむめもやゆよらりるれろわをん―。～"
 
 
 def register(uid):
@@ -18,6 +19,13 @@ def register(uid):
             return True
         else:
             return False
+
+
+def random_string(n):
+    string = ""
+    for i in range(0, n):
+        string += random.choice(japanese)
+    return string
 
 
 """**********************************************************
@@ -94,6 +102,24 @@ class Guild:
         except Exception as e:
             print(e)
             return discord.Embed(title="Leaderboard is not prepared yet. Try again later", description="We update leaderboards every 30 minutes")
+
+    def all_quests(self):
+        if self.questTokens:
+            with open("quests.json", "r") as f:
+                data = json.load(f)
+                embed = discord.Embed(title="Unlocked quests")
+                temp_str = ""
+                qindex = 1
+                for qtoken in self.questTokens.keys():
+                    if self.questTokens[qtoken]:
+                        temp_str += str(qindex) + "~~" + data[qtoken].name + "~~\n"
+                        qindex += 1
+                    else:
+                        temp_str += str(qindex) + random_string(10) + "\n"
+                        qindex += 1
+                embed.add_field(name="_ _", value=temp_str, inline=False)
+                embed.set_footer(text="You can access already unlocked quests by typing \"quest<number>\" command")
+                return embed
 
 
 def create_guild(guildname, uid, channelid):

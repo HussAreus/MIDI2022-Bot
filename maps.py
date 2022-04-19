@@ -1,10 +1,12 @@
 import discord
 import json
 import functions
-
+import random
 """**********************************************************
 						QUESTS
 **********************************************************"""
+
+japanese = "あいうえおかきくけこがげぎぐごさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまみむめもやゆよらりるれろわをん―。～"
 
 
 class Quest:
@@ -36,12 +38,12 @@ def check_answer(uid, answer):
 
 
 def get_task(uid, quest_id):
-    guildname = functions.find_user(uid)
-    guild = functions.load_guild(guildname)
     with open("gateway.json", "r") as f:
         data = json.load(f)
         if quest_id in data.keys():
-            answer = data.keys[quest_id]
+            guildname = functions.find_user(uid)
+            guild = functions.load_guild(guildname)
+            answer = data[quest_id]
             if guild.add_qtoken(answer):
                 return load_quest(answer, True)
             return load_quest(answer, False)
@@ -61,7 +63,7 @@ def load_quest(answer, new):
         quest = Quest(*json.load(f)[answer])
         embed = discord.Embed(title=quest.name, description=quest.task)
         if new:
-            embed.set_footer(text="Reward for unlocking this quest: " + str(quest.spot_reward))
+            embed.set_footer(text=glitch("Reward for unlocking this quest: ") + str(quest.spot_reward))
 
 
 """**********************************************************
@@ -118,7 +120,7 @@ def buy_map(uid, numb):
         guildname = functions.find_user(uid)
         guild = functions.load_guild(guildname)
         if map_dict[temp[numb]].price < guild.points:
-            return discord.Embed(title="Not Enough Points", description="You can earn more points by doing quests. If your not able to find a quest then just wander around the matrix - you might find one accidently")
+            return discord.Embed(title="Not Enough Points", description="You can earn more points by doing ques" + glitch("ts. If you're not able to find a quest then just wander around the matrix - you might find one accidently"))
         if temp[numb] not in guild.mapTokens:
             guild.add_points(map_dict[temp[numb]].price, None)
             functions.upload_guild(guild)
@@ -128,7 +130,7 @@ def buy_map(uid, numb):
 def load_all(uid):
     guildname = functions.find_user(uid)
     guild = functions.load_guild(guildname)
-    embed = discord.Embed(title="Map objectives", description="By solving these leads you can unlock a respective map")
+    embed = discord.Embed(title="Map objectives", description="By solving these leads you can unlock " + glitch("a respective map"))
     i = 0
     for wmap in map_dict.keys():
         i += 1
@@ -234,4 +236,16 @@ map_dict = {
         ])
 }
 
+
+def glitch(string):
+    if random.random() < 0.1:
+        new_string = ""
+        for letter in string:
+            if random.randint(0, 5):
+                new_string += random.choice(japanese)
+            else:
+                new_string += letter
+        return new_string
+    else:
+        return string
 
