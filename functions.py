@@ -64,6 +64,8 @@ class Guild:
         if qtoken:
             if self.questTokens[qtoken]:
                 return None
+            else:
+                self.questTokens[qtoken] = True
         self.points += value
         with open("guildlist.json", "r+") as f:
             data = json.load(f)
@@ -71,6 +73,7 @@ class Guild:
             f.seek(0)
             f.truncate()
             json.dump(data, f)
+            return True
 
     def add_qtoken(self, token):
         if self.questTokens:
@@ -112,10 +115,10 @@ class Guild:
                 qindex = 1
                 for qtoken in self.questTokens.keys():
                     if self.questTokens[qtoken]:
-                        temp_str += str(qindex) + "~~" + data[qtoken].name + "~~\n"
+                        temp_str += str(qindex) + " ~~" + data[qtoken]["name"] + "~~\n"
                         qindex += 1
                     else:
-                        temp_str += str(qindex) + random_string(10) + "\n"
+                        temp_str += str(qindex) + " " + random_string(10) + "\n"
                         qindex += 1
                 embed.add_field(name="_ _", value=temp_str, inline=False)
                 embed.set_footer(text="You can access already unlocked quests by typing \"quest<number>\" command")

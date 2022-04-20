@@ -7,6 +7,7 @@ import maps
 import decode
 import random
 import os
+import json
 """
 Requires (pip install <module>):
 discord
@@ -97,9 +98,10 @@ async def on_message(ctx):
                 await channel.send(embed=maps.load_all(str(author.id)))
         elif command == "quest" or command == "quests":
             guild = functions.load_guild(functions.find_user(str(author.id)))
+            data = " ".join(ctx.content.split(" ")[1:])
             if data:
                 if data.isdigit() and 0 < int(data) < len(guild.questTokens):
-                    maps.load_quest(guild.questTokens.keys()[int(data)-1], False)
+                    await channel.send(embed=maps.load_quest(list(guild.questTokens.keys())[int(data)-1], False))
                 else:
                     result = maps.get_task(str(author.id), data)
                     if result:
@@ -140,14 +142,26 @@ async def on_message(ctx):
                 sub_channel = get(ctx.guild.channels, id=962275479564468224)
                 if file.filename.lower().endswith(".png") or file.filename.lower().endswith(".jpg") or file.filename.lower().endswith(".jpeg"):
                     text = decode.decode_qr(file)
-                    text = ' '.join(text.split(" ")[1:])
                     if text:
-                        await channel.send(text)
-                        """
-                        result = maps.get_task(str(author.id), text)
-                        if result:
-                            await channel.send(result)
-                        """
+                        text = text.split(" ")
+                        command = text[0]
+                        text = ' '.join(text[1:])
+                        if command == "quest" and text:
+                            print(text)
+                            result = maps.get_task(str(author.id), text)
+                            if result:
+                                await channel.send(embed=result)
+                            else:
+                                await sub_channel.send("Unexpected image at channel: <#" + str(channel.id) + ">")
+                        elif command == "map" and text:
+                            result = maps.load_map(str(author.id), text)
+                            if result:
+                                await channel.send(embed=result)
+                            else:
+                                await sub_channel.send("Unexpected image at channel: <#" + str(channel.id) + ">")
+                        elif text:
+                            await channel.send(command + " " + text)
+                            await sub_channel.send("Unexpected image at channel: <#" + str(channel.id) + ">")
                     else:
                         await sub_channel.send("Unexpected image at channel: <#" + str(channel.id) + ">")
                 else:
@@ -172,14 +186,13 @@ async def create_guild(ctx, guildname):
         channel = await guild.create_text_channel(guildname, overwrites=overwrites)
         functions.create_guild(guildname, str(member.id), channel.id)
         # THIS WILL BE VISIBLE:
-        await channel.send("Your free map is:")
-        await channel.send(embed=maps.load_map(str(member.id), random.choice(["mobil avenue", "zion", "mega city", "backdoor"])))
-        await channel.send(embed=maps.load_all(str(member.id)))
-
+        await channel.send("Your free map is: " + random.choice(["mobil avenue", "zion", "mega city", "backdoor"]) + "\nYou can access the map by using the \"map <map_name>\" command")
+        embed = maps.load_all(str(member.id))
+        embed.set_footer(text="You can access this menu by using command \"map\"")
+        await channel.send(embed=embed)
         return True
     except Exception as e:
         print(e)
         return False
-
 
 bot.run(TOKEN)

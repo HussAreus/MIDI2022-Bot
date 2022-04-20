@@ -26,13 +26,13 @@ def check_answer(uid, answer):
     with open("quests.json", "r") as f:
         data = json.load(f)
         if answer in data.keys():
-            quest = Quest(*data[answer])
+            quest = Quest(*data[answer].values())
             if quest.map in guild.mapTokens:
-                result = guild.add_points(data[answer]["reward"], answer)
+                result = guild.add_points(quest.reward, answer)
                 functions.upload_guild(guild)
                 if result:
-                    return 'Quest "' + str(data[answer]["name"]) + '" completed\nReward: ' + str(
-                        data[answer]["reward"]) + ' points'
+                    return 'Quest "' + str(quest.name) + '" completed\nReward: ' + str(
+                        quest.reward) + ' points'
             else:
                 return "You haven't unlocked this map"
 
@@ -43,27 +43,32 @@ def get_task(uid, quest_id):
         if quest_id in data.keys():
             guildname = functions.find_user(uid)
             guild = functions.load_guild(guildname)
-            answer = data[quest_id]
+            answer = data[quest_id]["answer"]
             if guild.add_qtoken(answer):
+                guild.add_points(data[quest_id]["spot_reward"], None)
+                functions.upload_guild(guild)
+                return load_quest(answer, True)
+            return load_quest(answer, False)
+    with open("gateway2.json", "r") as f:
+        data = json.load(f)
+        if quest_id.lower() in data.keys():
+            guildname = functions.find_user(uid)
+            guild = functions.load_guild(guildname)
+            answer = data[quest_id.lower()]["answer"]
+            if guild.add_qtoken(answer):
+                guild.add_points(data[quest_id.lower()]["spot_reward"], None)
+                functions.upload_guild(guild)
                 return load_quest(answer, True)
             return load_quest(answer, False)
 
 
-def upload_quests():
-    with open("quests.json", "w") as f:
-        quest_dict = {}
-        for wmap in map_dict.keys():
-            for quest in map_dict[wmap].quests:
-                quest_dict[quest.answer] = quest.__dict__
-        json.dump(quest_dict, f)
-
-
 def load_quest(answer, new):
     with open("quests.json", "r") as f:
-        quest = Quest(*json.load(f)[answer])
-        embed = discord.Embed(title=quest.name, description=quest.task)
+        quest = json.load(f)[answer]
+        embed = discord.Embed(title=quest["name"], description=quest["task"])
         if new:
-            embed.set_footer(text=glitch("Reward for unlocking this quest: ") + str(quest.spot_reward))
+            embed.set_footer(text=glitch("Reward for unlocking this quest: ") + str(quest["spot_reward"]))
+    return embed
 
 
 """**********************************************************
@@ -238,7 +243,7 @@ map_dict = {
 
 
 def glitch(string):
-    if random.random() < 0.1:
+    if random.random() < 0.2:
         new_string = ""
         for letter in string:
             if random.randint(0, 5):

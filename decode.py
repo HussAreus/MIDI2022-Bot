@@ -39,9 +39,3 @@ def decode_qr(url):
     else:
         print("Timed Out")
 
-
-def hash_to_num(string):
-    suma = 0
-    for letter in string:
-        suma += ord(letter)
-    return suma % 5
