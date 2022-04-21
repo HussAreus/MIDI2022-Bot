@@ -7,7 +7,7 @@ import maps
 import decode
 import random
 import os
-import json
+
 """
 Requires (pip install <module>):
 discord
@@ -147,7 +147,6 @@ async def on_message(ctx):
                         command = text[0]
                         text = ' '.join(text[1:])
                         if command == "quest" and text:
-                            print(text)
                             result = maps.get_task(str(author.id), text)
                             if result:
                                 await channel.send(embed=result)
