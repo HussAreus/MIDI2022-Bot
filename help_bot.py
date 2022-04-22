@@ -61,5 +61,10 @@ async def help(ctx, command: Option(str, "Choose command [Default: All]", choice
         embed = discord.Embed(title="Command answ")
         embed.add_field(name="answ <quest_answer>", value="Just shoot the answer. If it is correct, you will get points.", inline=False)
         await ctx.respond(embed=embed)
+    elif command == "end":
+        embed = discord.Embed(title="Command end")
+        embed.add_field(value="Ačiū, kad dalyvavote. Tikimės šį vakarą Jums pasisekė ir surinkote daug taškų! Su laimėtojais susisieksime privačia žinute, o apdovanojimai vyks MIDI 2022 Uždarymo vakaro metu.", inline=False)
+        embed.set_footer(text="Daugiau informacijos apie Uždarymo vakarą rasite čia: https://fb.me/e/2rmHlGHoW")
+        await ctx.respond(embed=embed)
 
 bot.run(TOKEN)
