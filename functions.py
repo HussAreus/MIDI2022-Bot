@@ -3,7 +3,7 @@ import discord
 from datetime import datetime
 import random
 
-styles = ["red", "blue", "old"]
+styles = ["red", "blue", "old", "cool"]
 last_update = "00:00"
 japanese = "あいうえおかきくけこがげぎぐごさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまみむめもやゆよらりるれろわをん―。～"
 
@@ -103,7 +103,7 @@ class Guild:
                 embed.set_footer(text="Last update "+last_update)
                 return embed
         except Exception as e:
-            print(e)
+            print("functions" + str(e))
             return discord.Embed(title="Leaderboard is not prepared yet. Try again later", description="We update leaderboards every 30 minutes")
 
     def all_quests(self):

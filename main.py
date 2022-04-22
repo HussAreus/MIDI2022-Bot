@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.utils import get
+from discord.commands import Option
 from dotenv import load_dotenv
 import functions
 import maps
@@ -16,9 +17,12 @@ pyzbar
 https://github.com/Pycord-Development/pycord
 """
 
-REGISTER_CHANNEL = 955089619479838802
+REGISTER_CHANNEL = 966964571027951646
 ADMIN_CHANNEL = 965163235290533928
-GUILD_CHANNEL = 959078914083418132
+GUILD_CHANNEL = 966964399225073666
+HJELP_CHANNEL = 966966877450559508
+start = False
+command_list = ["answ", "map", "maps", "quest", "quests", "style", "buy", "hint", "leaderboard", "lead", "rank"]
 
 
 class Bot(commands.Bot):
@@ -42,6 +46,7 @@ async def on_ready():
 @bot.event
 async def on_message(ctx):
     if not ctx.author.bot:
+        global start
         author = ctx.author
         content = ctx.content.lower()
         channel = ctx.channel
@@ -54,6 +59,9 @@ async def on_message(ctx):
                 role = get(ctx.guild.roles, id=961558123435401286)
                 await author.add_roles(role)
             await ctx.delete()
+        elif channel.id == ADMIN_CHANNEL and command == "start":
+            start = True
+            await channel.send("MIDI 2022 STARTED")
         elif channel.id == GUILD_CHANNEL and command == "create":
             if data:
                 if not functions.find_user(str(author.id)):
@@ -62,12 +70,9 @@ async def on_message(ctx):
                     else:
                         await channel.send(maps.glitch("Guild creation") + " unsuccessful")
                 else:
-                    await channel.send(maps.glitch("You are already in a party. The organisators prohibited leaving a party"))
+                    await channel.send(maps.glitch("You are already in a party. Leaving a party is prohibited"))
             else:
                 await channel.send(maps.glitch("You forgot the guild name. ") + "Command is \"create <party_name>\"")
-            """await ctx.delete()
-            time.sleep(2)
-            await answer.delete()"""
         elif channel.id == GUILD_CHANNEL and command == "join":
             if data:
                 if not functions.find_user(str(author.id)):
@@ -80,20 +85,38 @@ async def on_message(ctx):
                     elif result:
                         await channel.send(maps.glitch("Guild is full"))
                 else:
-                    await channel.send(maps.glitch("You are already in a party"))
+                    await channel.send(maps.glitch("You are already in a party. Leaving a party is prohibited"))
             else:
                 await channel.send(maps.glitch("You forgot the party name.") + "Command is \"join <partyname>\"")
+        elif not start and command in command_list:
+            await channel.send("Event haven't started yet")
+        elif channel.id == HJELP_CHANNEL and command == "points":
+            try:
+                if data:
+                    guildname = content.split(" ")[1]
+                    points = int(content.split(" ")[2])
+                    guild = functions.load_guild(guildname.lower())
+                    guild.add_points(points, None)
+                    functions.upload_guild(guild)
+            except Exception as e:
+                print("main" + str(e))
+                await channel.send("points <guildname> <number>")
         elif command == "answ":
             result = maps.check_answer(str(author.id), data)
             if result:
                 await channel.send(result)
         elif command == "map" or command == "maps":
             if data:
-                result = maps.load_map(str(author.id), data)
-                if result:
-                    await channel.send(embed=result)
+                if data.startswith("vilnius"):
+                    embed = discord.Embed(title="Vilnius", description="answ explorer")
+                    embed.set_image(url="https://media.discordapp.net/attachments/960152417687732245/966998921442381864/RedMap.png?width=1602&height=676")
+                    await channel.send(embed=embed)
                 else:
-                    await channel.send(maps.glitch("Unidentified map.obj for MX Matrix v1.22474487139"))
+                    result = maps.load_map(str(author.id), data)
+                    if result:
+                        await channel.send(embed=result)
+                    else:
+                        await channel.send(maps.glitch("Unidentified map.obj for MX Matrix v1.22474487139\nAre you sure there is a map with such name?"))
             else:
                 await channel.send(embed=maps.load_all(str(author.id)))
         elif command == "quest" or command == "quests":
@@ -127,7 +150,8 @@ async def on_message(ctx):
             if embed:
                 await channel.send(embed=embed)
         elif command == "hint":
-            pass
+            sub_channel = get(ctx.guild.channels, id=HJELP_CHANNEL)
+            await sub_channel.send("<@&945782392596074526> Help request at <#" + str(channel.id) + ">")
         elif command == "leaderboard" or command == "lead" or command == "rank":
             if channel.id == ADMIN_CHANNEL:
                 result = functions.update_leaderboard()
@@ -137,7 +161,7 @@ async def on_message(ctx):
                 guildname = functions.find_user(str(author.id))
                 guild = functions.load_guild(guildname)
                 await channel.send(embed=guild.lead())
-        elif len(ctx.attachments) > 0:
+        elif start and len(ctx.attachments) > 0:
             for file in ctx.attachments:
                 sub_channel = get(ctx.guild.channels, id=962275479564468224)
                 if file.filename.lower().endswith(".png") or file.filename.lower().endswith(".jpg") or file.filename.lower().endswith(".jpeg"):
@@ -167,31 +191,80 @@ async def on_message(ctx):
                     await sub_channel.send("Unexpected attachment at channel: <#" + str(channel.id) + ">")
 
 
-@bot.slash_command(guild_ids=[928239290440372295], description="No idea")
-async def create(ctx):
-    await ctx.respond("Guild created", ephemeral=True)
+@bot.slash_command(guild_ids=[928239290440372295], description="Create your party")
+async def create(ctx, party_name: Option(str, "Choose party name", required=True)):
+    author = ctx.author
+    channel = ctx.channel
+    if channel.id == GUILD_CHANNEL:
+        if party_name:
+            if not functions.find_user(str(author.id)):
+                if await create_guild(ctx, party_name):
+                    await ctx.respond(maps.glitch("Guild creation successful"), ephemeral=True)
+                else:
+                    await ctx.respond(maps.glitch("Guild creation") + " unsuccessful", ephemeral=True)
+            else:
+                await ctx.respond(maps.glitch("You are already in a party. The organisators prohibited leaving a party"), ephemeral=True)
+        else:
+            await ctx.respond(maps.glitch("You forgot the guild name. ") + "Command is \"create <party_name>\"", ephemeral=True)
+    else:
+        await ctx.respond("<#966964399225073666> Only")
+
+
+@bot.slash_command(guild_ids=[928239290440372295], description="Join a party")
+async def join(ctx, party_name: Option(str, "Choose party name", required=True)):
+    author = ctx.author
+    channel = ctx.channel
+    if channel.id == GUILD_CHANNEL:
+        if party_name:
+            if not functions.find_user(str(author.id)):
+                result, memb = functions.join(str(author.id), party_name)
+                if result and memb:
+                    role = get(ctx.guild.roles, name=party_name.lower())
+                    if role:
+                        await author.add_roles(role)
+                    await ctx.respond(maps.glitch("Joined the guild successfully"), ephemeral=True)
+                elif result:
+                    await ctx.respond(maps.glitch("Guild is full"), ephemeral=True)
+            else:
+                await ctx.respond(maps.glitch("You are already in a party"), ephemeral=True)
+        else:
+            await ctx.respond(maps.glitch("You forgot the party name.") + "Command is \"join <partyname>\"", ephemeral=True)
+    else:
+        await ctx.respond("<#966964399225073666> Only")
 
 
 async def create_guild(ctx, guildname):
-    try:
-        guild = ctx.guild
-        member = ctx.author
-        guildrole = await guild.create_role(name=guildname.lower(), colour=discord.Colour(0x00FF00))
-        await member.add_roles(guildrole)
-        overwrites = {
-            guild.default_role: discord.PermissionOverwrite(read_messages=False),
-            guildrole: discord.PermissionOverwrite(read_messages=True)
-        }
-        channel = await guild.create_text_channel(guildname, overwrites=overwrites)
-        functions.create_guild(guildname, str(member.id), channel.id)
-        # THIS WILL BE VISIBLE:
-        await channel.send("Your free map is: " + random.choice(["mobil avenue", "zion", "mega city", "backdoor"]) + "\nYou can access the map by using the \"map <map_name>\" command")
-        embed = maps.load_all(str(member.id))
-        embed.set_footer(text="You can access this menu by using command \"map\"")
-        await channel.send(embed=embed)
-        return True
-    except Exception as e:
-        print(e)
-        return False
+    guild = ctx.guild
+    member = ctx.author
+    guildrole = await guild.create_role(name=guildname.lower(), colour=discord.Colour(0x00FF00))
+    pagalbininkai = get(ctx.guild.roles, id=945782392596074526)
+    await member.add_roles(guildrole)
+    overwrites = {
+        guild.default_role: discord.PermissionOverwrite(read_messages=False),
+        guildrole: discord.PermissionOverwrite(read_messages=True),
+        pagalbininkai: discord.PermissionOverwrite(read_messages=True)
+    }
+    channel = await guild.create_text_channel(guildname, overwrites=overwrites)
+    functions.create_guild(guildname, str(member.id), channel.id)
+    # THIS WILL BE VISIBLE:
+
+    chosen = random.choice(["Mobil Avenue", "Zion", "Mega City", "Backdoor"])
+    if start:
+        await channel.send("Nemokamas žemėlapis: " + chosen + "\ngali peržiūrėti jį naudodamas \"map <map_name>\" komandą")
+    else:
+        if chosen.lower() == "mobil avenue":
+            await channel.send("**Nemokamas žemėlapis: " + chosen + ". Organizuotojai lauks prie Aušros vartų**")
+        elif chosen.lower() == "backdoor":
+            await channel.send("**Nemokamas žemėlapis: " + chosen + ". Organizuotojai lauks prie Pylimo g. 17 (MO muziejus)**")
+        elif chosen.lower() == "mega city":
+            await channel.send("**Nemokamas žemėlapis: " + chosen + ". Organizuotojai lauks Rotušės aikštėje**")
+        elif chosen.lower() == "zion":
+            await channel.send("**Nemokamas žemėlapis: " + chosen + ". Organizuotojai lauks prie Tymo turgaus**")
+
+    maps.load_map(str(member.id), chosen.lower())
+    embed = maps.load_all(str(member.id))
+    embed.set_footer(text="You can access this menu by using command \"map\"")
+    await channel.send(embed=embed)
+    return True
 
 bot.run(TOKEN)

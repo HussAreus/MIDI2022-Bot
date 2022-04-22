@@ -1,10 +1,49 @@
+"""
 import qrcode
 from PIL import Image
 import random
 import json
 import maps
 
+quests_data ={}
+for wmap in maps.map_dict.values():
+    for quest in wmap.quests:
+        quests_data[quest.answer.lower()] = quest.__dict__
 
+with open("quests.json", "w") as f:
+    json.dump(quests_data, f)
+    
+
+with open("gateway.json", "r") as f:
+    data = json.load(f)
+with open("gateway2.json", "r") as f:
+    data2 = json.load(f)
+with open("quests.json", "r") as f:
+    quests_data = json.load(f)
+
+for key in data.keys():
+    # Old quest per gateway ir quest faila
+    old_quest = maps.Quest(*(quests_data[data[key]["answer"]].values()))
+    # New quest pagal old quest pavadinima, mapa is map_dict
+    new_quest = None
+    for quest in maps.map_dict[old_quest.map].quests:
+        if quest.name == old_quest.name:
+            new_quest = quest
+    # Atnaujina abu failus
+    if new_quest:
+        data[key] = {"answer": new_quest.answer.lower(), "spot_reward": new_quest.spot_reward}
+        data2[new_quest.name.lower()] = {"answer": new_quest.answer.lower(), "spot_reward": new_quest.spot_reward}
+        quests_data[new_quest.answer.lower()] = new_quest.__dict__
+
+
+with open("gateway.json", "w") as f:
+    json.dump(data, f)
+with open("gateway2.json", "w") as f:
+    json.dump(data2, f)
+with open("quests.json", "w") as f:
+    json.dump(quests_data, f)
+"""
+"""
 def random_string(n):
     rand_string = ""
     for i in range(0, n):
@@ -74,3 +113,18 @@ with open("gateway.json", "w") as f:
 with open("gateway2.json", "w") as f:
     json.dump(new_dict2, f)
 
+QRcode = qrcode.QRCode(
+    error_correction=qrcode.constants.ERROR_CORRECT_H
+)
+quest_id = random_string(10)
+url = "quest " + quest_id
+print(quest_id)
+# adding URL or text to QRcode
+QRcode.add_data(url)
+# generating QR code
+QRcode.make()
+
+# adding color to QR code
+QRimg = QRcode.make_image(fill_color="black", back_color="white").convert('RGB')
+QRimg.save("../Vilniaus gynybinės sienos bastėja.png")
+"""
