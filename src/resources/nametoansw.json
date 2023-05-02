@@ -1,0 +1,80 @@
+{
+  "petro cvirkos aik\u0161t\u0117": { "answer": "h5", "spot_reward": 20 },
+  "frank zappa": { "answer": "8", "spot_reward": 20 },
+  "reformat\u0173 skveras": { "answer": "shut the fuck up", "spot_reward": 10 },
+  "miesto vart\u0173 sargybinio skulpt\u016bra": {
+    "answer": "gediminai\u010di\u0173 stulpai",
+    "spot_reward": 20
+  },
+  "mo muziejus": {
+    "answer": "verkia duona tinginio valgoma",
+    "spot_reward": 30
+  },
+  "vokie\u010di\u0173 g. 24": { "answer": "lietuva", "spot_reward": 20 },
+  "margutis": { "answer": "m\u0117lyn\u0105 katin\u0105", "spot_reward": 20 },
+  "skulpt\u016bra \u201ekatinas\u201c": { "answer": "1976", "spot_reward": 20 },
+  "midi ofisas": { "answer": "1999", "spot_reward": 20 },
+  "radvil\u0173 r\u016bmai": { "answer": "ro\u017e\u0117", "spot_reward": 20 },
+  "skulpt\u016bra \u201evilniet\u0117\u201c": {
+    "answer": "atrask midi is naujo",
+    "spot_reward": 10
+  },
+  "grojantis oginskio suoliukas": { "answer": "headache", "spot_reward": 20 },
+  "\u017eibintininko skulpt\u016bra": {
+    "answer": "\u017evaig\u017ed\u0117mis",
+    "spot_reward": 20
+  },
+  "literat\u0173 gatv\u0117": { "answer": "jerunda!", "spot_reward": 20 },
+  "suoliukas vytautui kernagiui atminti": {
+    "answer": "a\u0161",
+    "spot_reward": 20
+  },
+  "\u017eemait\u0117s skveras": { "answer": "v\u0117jui", "spot_reward": 30 },
+  "operos ir baleto teatras": { "answer": "katino", "spot_reward": 20 },
+  "tauro kalnas": { "answer": "gediminas", "spot_reward": 0 },
+  "\u017ealiasis obuolys": { "answer": "41", "spot_reward": 10 },
+  "berniukas su kalio\u0161u": {
+    "answer": "ne nedovanosim",
+    "spot_reward": 15
+  },
+  "provianto kvartalas": { "answer": "116.95", "spot_reward": 15 },
+  "nepastatyta ba\u017eny\u010dia (atminimo \u017eenklas architektui antanui vivulskiui)": {
+    "answer": "vilnius",
+    "spot_reward": 30
+  },
+  "tibeto skveras": { "answer": "23", "spot_reward": 20 },
+  "edwardo van longuso darbai ant fasadin\u0117s umi sienos": {
+    "answer": "e\u017eys",
+    "spot_reward": 20
+  },
+  "u\u017eupio katinas": { "answer": "dr\u0105sa", "spot_reward": 30 },
+  "suba\u010diaus ap\u017evalgos aik\u0161tel\u0117": {
+    "answer": "aaa",
+    "spot_reward": 15
+  },
+  "u\u017eupio angelas": { "answer": "kiaul\u0117", "spot_reward": 10 },
+  "u\u017eupio konstitucija": { "answer": "13", "spot_reward": 15 },
+  "s\u0117km\u0117s pilvas": { "answer": "\u010deburekas", "spot_reward": 30 },
+  "katedra ir valdov\u0173 r\u016bmai": {
+    "answer": "striksintis katinas",
+    "spot_reward": 10
+  },
+  "seniausias skelbim\u0173 stulpas": {
+    "answer": "seniausias skelbim\u0173 stulpas",
+    "spot_reward": 0
+  },
+  "vilniaus kompasas": { "answer": "rytai", "spot_reward": 20 },
+  "vilniaus gynybin\u0117s sienos bast\u0117ja": {
+    "answer": "a\u010di\u016b",
+    "spot_reward": 15
+  },
+  "dr. jono basanavi\u010diaus aik\u0161t\u0117": {
+    "answer": "2022",
+    "spot_reward": 15
+  },
+  "au\u0161ros vartai": { "answer": "nu ir kod\u0117l", "spot_reward": 15 },
+  "taraso \u0161ev\u010denkos paminklas": {
+    "answer": "midi i\u0161 po jovar\u0117lio",
+    "spot_reward": 20
+  }
+}

@@ -1,3 +1,8 @@
+# generated QR images
+src/QR
+src/QRlogo
+src/guilds
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

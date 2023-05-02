@@ -19,7 +19,7 @@ def url_to_image(url, read_flag=cv2.IMREAD_COLOR):
     # Blur
     img = cv2.blur(img, (5, 5))
     # Sharpening
-    
+
     kernel = np.array([[0, -1, 0],
                        [-1, 5, -1],
                        [0, -1, 0]])
@@ -38,4 +38,3 @@ def decode_qr(url):
             return text
     else:
         print("Timed Out")
-
