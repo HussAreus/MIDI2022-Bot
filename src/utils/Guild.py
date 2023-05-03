@@ -21,9 +21,9 @@ basic layout:
 
 
 class Guild:
-    def __init__(self, leaderUID: int, name: str, channelID: int, points=0, questTokens: Dict[str, bool] = {}, mapTokens: List[str] = [], style=mapStyles[0]):
+    def __init__(self, members: List[int], leaderUID: int, name: str, channelID: int, points=0, questTokens: Dict[str, bool] = {}, mapTokens: List[str] = [], style=mapStyles[0]):
         """ Initializes a new guild """
-        self.members = [leaderUID]
+        self.members = members
         self.leader = leaderUID
         self.name = name
         self.channelid = channelID

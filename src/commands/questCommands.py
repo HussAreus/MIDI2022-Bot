@@ -33,7 +33,7 @@ def check_answer(uid: int, answer: str):
             else:
                 return "You haven't unlocked this map"
 
-
+# TODO: Rename get_quest and load_quest
 def get_quest(uid: int, quest_id: str):
     """ Finds quest answer based on quest id. Adds points for finding the quest"""
     with open("resources/idtoansw.json", "r") as f:

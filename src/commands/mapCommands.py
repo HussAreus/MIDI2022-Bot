@@ -65,7 +65,7 @@ def buy_map(uid: int, id: str):
 
 def load_all(uid: int):
     """ Lists all maps """
-    guild = guildCommands.find_user_guild(uid)
+    guild = guildCommands.get_user_guild(uid)
     embed = discord.Embed(title="List of all maps")
     i = 0
     for map in map_dict:

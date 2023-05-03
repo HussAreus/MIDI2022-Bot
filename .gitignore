@@ -1,7 +1,7 @@
 # generated QR images
 src/QR
 src/QRlogo
-src/guilds
+src/resources/guilds
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

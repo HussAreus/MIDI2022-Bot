@@ -15,3 +15,9 @@ ADMIN_ROLE = 1102560567488675860
 GUILDLIST_PATH = "resources/guildlist.json"
 PARTICIPANTS_PATH = "resources/participants.json"
 LEADERBOARD_PATH = "resources/leaderboard.json"
+
+# Admin ID
+ADMIN_ID = 0
+
+# Channels accessible by all guilds
+PUBLIC_CHANNELS = [REGISTER_CHANNEL, GUILD_CREATION_CHANNEL, HELP_CHANNEL, LOG_CHANNEL]

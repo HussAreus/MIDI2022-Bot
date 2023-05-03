@@ -68,8 +68,8 @@ def new_guild(guildname: str, leaderUID: int, channelid: int):
     with open(botconfig.GUILDLIST_PATH, "r+") as ff:
         data = json.load(ff)
         if guildname not in data:
-            with open("guilds/" + guildname.lower() + ".json", "w+") as f:
-                json.dump(Guild(leaderUID, guildname, channelid).__dict__, f)
+            with open("resources/guilds/" + guildname.lower() + ".json", "w+") as f:
+                json.dump(Guild([leaderUID], leaderUID, guildname, channelid).__dict__, f)
             data[guildname] = 0
             ff.seek(0)
             ff.truncate()
